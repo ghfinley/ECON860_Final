@@ -27,7 +27,7 @@ ev,v = machine.get_eigenvalues()
 pyplot.scatter(range(1,dataset.shape[1]+1),ev)
 pyplot.savefig("evplot.png")
 
-# Using 6 Factors
+# My optimal factors is 6 using the elbow technique 
 machine = FactorAnalyzer(n_factors=6, rotation='varimax')
 machine.fit(dataset)
 
@@ -76,7 +76,7 @@ def run_gmm(n, data):
 gmm_silhouette_list = [ run_gmm(i+1, data) for i in range(7)]
 print(gmm_silhouette_list)
 
-# The optimal number of clusters is 3 based on Silhouette Score
+# The optimal number of clusters is 4 based on Silhouette Score
 
 #AHC
 print("AHC")
