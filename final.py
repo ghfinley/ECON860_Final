@@ -27,8 +27,8 @@ ev,v = machine.get_eigenvalues()
 pyplot.scatter(range(1,dataset.shape[1]+1),ev)
 pyplot.savefig("evplot.png")
 
-# Using 3 Factors
-machine = FactorAnalyzer(n_factors=3, rotation='varimax')
+# Using 6 Factors
+machine = FactorAnalyzer(n_factors=6, rotation='varimax')
 machine.fit(dataset)
 
 loadings = machine.loadings_
@@ -79,15 +79,16 @@ print(gmm_silhouette_list)
 # The optimal number of clusters is 3 based on Silhouette Score
 
 #AHC
+print("AHC")
 pyplot.title("Dendrogram")
 dendrogram_object = shc.dendrogram(shc.linkage(data, method = "ward")) 
 pyplot.savefig("dendrogram.png")
 pyplot.close()
   
 machine = AgglomerativeClustering(n_clusters = 4, affinity="euclidean", linkage="ward")
-results_ahc_us = machine.fit_predict(data) 
+results_ahc = machine.fit_predict(data) 
 
-silhouette = (silhouette_score(data, results_ahc_us, metric = 'euclidean'))
+silhouette = (silhouette_score(data, results_ahc, metric = 'euclidean'))
 print(silhouette)
 
 

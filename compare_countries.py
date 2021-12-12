@@ -32,7 +32,7 @@ df_hk.dropna(inplace=True)
 machine = FactorAnalyzer(n_factors=40, rotation=None)
 machine.fit(df_us)
 ev_US,v = machine.get_eigenvalues()
-print(ev_US)
+#print(ev_US)
 
 pyplot.scatter(range(1,df_us.shape[1]+1),ev_US)
 pyplot.savefig("evplot_US.png")
@@ -42,7 +42,7 @@ pyplot.savefig("evplot_US.png")
 machine = FactorAnalyzer(n_factors=40, rotation=None)
 machine.fit(df_hk)
 ev_HK,v = machine.get_eigenvalues()
-print(ev_HK)
+#print(ev_HK)
 
 pyplot.scatter(range(1,df_hk.shape[1]+1),ev_HK)
 pyplot.savefig("evplot_HK.png")
@@ -55,34 +55,35 @@ machine.fit(df_us)
 
 loadings = machine.loadings_
 numpy.set_printoptions(suppress=True)
-print(loadings)
-print(machine.get_factor_variance())
+#print(loadings)
+#print(machine.get_factor_variance())
 
 
 df_us = df_us.values 
 result = numpy.dot(df_us,loadings)
-print(result)
-print(result.shape)
+#print(result)
+#print(result.shape)
 
 ## For HK it is harder to choose the appropote number of factors, we do not have a diminsihing marginal returns. 
 
-machine = FactorAnalyzer(n_factors=6, rotation='varimax')
+machine = FactorAnalyzer(n_factors=10, rotation='varimax')
 machine.fit(df_hk)
 
 loadings = machine.loadings_
 numpy.set_printoptions(suppress=True)
-print(loadings)
-print(machine.get_factor_variance())
+#print(loadings)
+#print(machine.get_factor_variance())
 
 
 df_hk = df_hk.values 
 result = numpy.dot(df_hk,loadings)
-print(result)
-print(result.shape)
+#print(result)
+#print(result.shape)
 
 ## Compare the Analysis with AHC Clustering 
 
 #AHC - US
+print("US AHC silhouette score")
 pyplot.title("Dendrogram_US")
 dendrogram_object = shc.dendrogram(shc.linkage(df_us, method = "ward")) 
 pyplot.savefig("dendrogram_US.png")
@@ -91,21 +92,21 @@ pyplot.close()
 machine = AgglomerativeClustering(n_clusters = 4, affinity="euclidean", linkage="ward")
 results_ahc_us = machine.fit_predict(df_us)
 
-silhouette = (silhouette_score(data, results_ahc_us, metric = 'euclidean'))
+silhouette = (silhouette_score(df_us, results_ahc_us, metric = 'euclidean'))
 print(silhouette)
 
 
 # AHC - HK
-
+print("HK AHC silhouette score")
 pyplot.title("Dendrogram_HK")
 dendrogram_object = shc.dendrogram(shc.linkage(df_hk, method = "ward")) 
 pyplot.savefig("dendrogram_HK.png")
 pyplot.close()
 #Optimum # is 4 from the Dendrogram
 machine = AgglomerativeClustering(n_clusters = 4, affinity="euclidean", linkage="ward")
-results_ahc_us = machine.fit_predict(df_hk)
+results_ahc_hk = machine.fit_predict(df_hk)
 
-silhouette = (silhouette_score(data, results_ahc_hk, metric = 'euclidean'))
+silhouette = (silhouette_score(df_hk, results_ahc_hk, metric = 'euclidean'))
 print(silhouette)
 
 
